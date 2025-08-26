@@ -64,7 +64,7 @@ projeto/
 ├── backend/
 │   ├── server_gamification.php   # API REST
 │   └── banco_completo.sql        # Schema do banco
-└── README_PROJETO.md             # Esta documentação
+└── README.md                     # Esta documentação
 ```
 
 ## Sistema de Pontuação
@@ -78,62 +78,83 @@ projeto/
 ## Instalação e Execução
 
 ### Pré-requisitos
-- Node.js 18+
+- Node.js 18+ (com npm)
 - PHP 8.1+
 - MySQL 8.0+
-- Apache 2.4+
+- MAMP (ou Apache/Nginx e MySQL)
 
-### Backend (PHP + MySQL)
+### 1. Instalar Node.js e npm
+Se você ainda não tem o Node.js e o npm instalados, siga estes passos:
 
-1. **Instalar dependências do sistema:**
-```bash
-sudo apt update
-sudo apt install -y apache2 mysql-server php php-mysql php-json
-```
+1.  **Baixe o instalador do Node.js:**
+    *   Vá para o site oficial do Node.js: `https://nodejs.org/`
+    *   Recomendo baixar a versão LTS (Long Term Support), que é a mais estável e recomendada para a maioria dos usuários.
 
-2. **Configurar MySQL:**
-```bash
-sudo mysql -e "CREATE DATABASE IF NOT EXISTS cursojs;"
-sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';"
-sudo mysql -e "FLUSH PRIVILEGES;"
-```
+2.  **Execute o instalador:**
+    *   Abra o arquivo que você baixou e siga as instruções do instalador.
+    *   Certifique-se de que a opção "Add to PATH" (Adicionar ao PATH) esteja selecionada durante a instalação. Isso garantirá que o `npm` e o `node` sejam reconhecidos no seu terminal.
 
-3. **Importar schema do banco:**
-```bash
-sudo mysql cursojs < banco_completo.sql
-```
+3.  **Verifique a instalação:**
+    *   Após a instalação, abra um **novo** terminal ou prompt de comando.
+    *   Digite os seguintes comandos para verificar se o Node.js e o npm foram instalados corretamente:
+        ```bash
+        node -v
+        npm -v
+        ```
+    *   Se você vir os números das versões, a instalação foi bem-sucedida.
 
-4. **Configurar Apache:**
-```bash
-sudo cp server_gamification.php /var/www/html/
-sudo chown www-data:www-data /var/www/html/server_gamification.php
-sudo systemctl start apache2
-sudo systemctl start mysql
-```
+### 2. Configuração do Backend (PHP + MySQL no MAMP)
 
-### Frontend (React)
+1.  **Iniciar o MAMP:**
+    *   Abra o aplicativo MAMP (ou MAMP PRO).
+    *   Certifique-se de que os servidores Apache e MySQL estejam iniciados (os botões devem estar verdes).
 
-1. **Navegar para o diretório do frontend:**
-```bash
-cd crud-gamificado
-```
+2.  **Criar o Banco de Dados:**
+    *   No painel do MAMP, clique em 'Open WebStart Page' ou navegue para `http://localhost/MAMP/` no seu navegador.
+    *   Clique em 'phpMyAdmin' no menu superior.
+    *   No phpMyAdmin, clique na aba 'Bancos de Dados' (Databases).
+    *   No campo 'Criar novo banco de dados' (Create new database), digite `cursojs` e clique em 'Criar' (Create).
 
-2. **Instalar dependências:**
-```bash
-npm install
-```
+3.  **Importar o Esquema do Banco de Dados:**
+    *   No phpMyAdmin, selecione o banco de dados `cursojs` que você acabou de criar na barra lateral esquerda.
+    *   Clique na aba 'Importar' (Import).
+    *   Clique em 'Escolher arquivo' (Choose file) e selecione o arquivo `banco_completo.sql` (fornecido com o projeto).
+    *   Role para baixo e clique em 'Executar' (Go) para importar o esquema e os dados iniciais.
 
-3. **Executar em modo desenvolvimento:**
-```bash
-npm run dev -- --host
-```
+4.  **Configurar o Servidor PHP:**
+    *   Localize o diretório `htdocs` do MAMP. Geralmente, ele está em `/Applications/MAMP/htdocs/` (macOS) ou `C:\MAMP\htdocs\` (Windows).
+    *   Copie o arquivo `server_gamification.php` (fornecido com o projeto) para dentro deste diretório `htdocs`.
 
-4. **Acessar a aplicação:**
-```
-http://localhost:5173
-```
+### 3. Configuração e Execução do Frontend (React)
 
-## Endpoints da API
+1.  **Descompacte o projeto:**
+    *   Descompacte o arquivo `sistema_crud_gamificado_essencial.zip` que você recebeu. Ele conterá a pasta `crud-gamificado`.
+
+2.  **Navegar para o diretório do frontend:**
+    *   Abra o terminal ou prompt de comando.
+    *   Use o comando `cd` para ir até a pasta `crud-gamificado`.
+    *   Exemplo: `cd C:\caminho\para\sistema_crud_gamificado_essencial\crud-gamificado`
+
+3.  **Instalar as dependências do projeto:**
+    *   Dentro do diretório `crud-gamificado`, execute o seguinte comando:
+        ```bash
+        npm install --legacy-peer-deps
+        ```
+    *   A flag `--legacy-peer-deps` é usada para resolver possíveis conflitos de dependências. Aguarde até que o processo seja concluído.
+
+4.  **Executar em modo desenvolvimento:**
+    *   Após a instalação das dependências, inicie o servidor de desenvolvimento React:
+        ```bash
+        npm run dev -- --host
+        ```
+
+5.  **Acessar a aplicação:**
+    *   O terminal indicará um endereço local, geralmente `http://localhost:5173/` ou `http://localhost:5174/`.
+    *   Abra este endereço no seu navegador para acessar o frontend da aplicação.
+
+**Observação:** Se você tiver problemas de CORS (Cross-Origin Resource Sharing) ao acessar o backend, verifique se o `server_gamification.php` está configurado corretamente com os cabeçalhos `Access-Control-Allow-Origin: *`.
+
+## Endpoints da API (Backend PHP)
 
 ### Usuários
 - `GET /server_gamification.php?endpoint=usuarios` - Listar usuários
