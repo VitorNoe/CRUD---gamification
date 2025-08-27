@@ -56,4 +56,3 @@ INSERT INTO badges (nome, descricao, criterio, icone) VALUES
 
 -- Usuário padrão para testes
 INSERT INTO usuarios (nome) VALUES ('Usuário Teste');
-
